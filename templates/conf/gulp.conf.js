@@ -6,7 +6,7 @@ const gutil = require('gulp-util');
 exports.ngModule = 'app';
 
 exports.paths = {
-  src: 'app',
+  src: 'src',
   dist: 'dist',
   tmp: '.tmp',
   e2e: 'e2e',

@@ -22,6 +22,7 @@ module.exports = generators.Base.extend({
       message: 'Which JavaScript framework do you want?',
       choices: [
           {name: 'Angular 1', value: 'angular1'},
+          {name: 'Blank', value: 'blank'},
           {name: chalk.gray('React'), value: 'react', disabled: chalk.gray('Wished. Contributors welcome. *-*')},
           {name: chalk.gray('Angular 2'), value: 'angular2', disabled: chalk.gray('Wished. Contributors welcome. *-*')},
           {name: chalk.gray('Vue 2'), value: 'vue', disabled: chalk.gray('Wished. Contributors welcome. *-*')},
@@ -89,13 +90,13 @@ module.exports = generators.Base.extend({
       ].forEach(function (file) {
         this.fs.copy(
           this.templatePath(templateURL+'styl/' + file),
-          this.destinationPath('app/styl/' + file)
+          this.destinationPath('src/styl/' + file)
         );
       }.bind(this));
 
       this.fs.copyTpl(
         this.templatePath(templateURL+'styl/app.styl'),
-        this.destinationPath('app/styl/app.styl'),
+        this.destinationPath('src/styl/app.styl'),
         {
           framework: this.props.framework
         }
@@ -123,10 +124,26 @@ module.exports = generators.Base.extend({
         );
       }.bind(this));  
     },
+
+    scripts: function(){
+      [
+      'index.js',
+      'index.spec.js',
+      'components/app/hello-world.html',
+      'components/app/hello-world.js',
+      'components/app/hello-world.spec.js'
+      ].forEach(function (file) {
+        this.fs.copy(
+          this.templatePath(templateURL + '' + file),
+          this.destinationPath('src/'+file)
+        );
+      }.bind(this));  
+    },
+
     svg: function () {
       this.fs.copy(
         this.templatePath(templateURL+'images/icons.svg'),
-        this.destinationPath('app/images/icons.svg')
+        this.destinationPath('src/images/icons.svg')
       );
     },
     images: function () {
@@ -137,7 +154,7 @@ module.exports = generators.Base.extend({
       ].forEach(function (file) {
         this.fs.copy(
           this.templatePath(templateURL + 'images/grid/' + file),
-          this.destinationPath('app/images/grid/' + file)
+          this.destinationPath('src/images/grid/' + file)
         );
       }.bind(this));  
     },
@@ -149,10 +166,11 @@ module.exports = generators.Base.extend({
     },
     dotfiles: function(){
       [
-        '.babelrc'
+        '.babelrc',
+        '.eslintrc.js'
       ].forEach(function(file){
         this.fs.copy(
-          this.templatePath(templateURL + 'dotfiles/' + file),
+          this.templatePath(templateURL + 'dotfiles/.' + file),
           this.destinationPath(file)
         );
       }.bind(this));
