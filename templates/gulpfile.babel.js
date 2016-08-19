@@ -1,6 +1,6 @@
 // generated using <%= name %> <%= version %>
 import './task/dev';
-<% if (!includeReact) { -%>
+<% if (!includeAngular) { -%>
 import './task/test';
 <% } -%>
 import './task/prod';

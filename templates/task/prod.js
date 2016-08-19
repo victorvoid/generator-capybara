@@ -6,7 +6,7 @@ import del from 'del';
 const $ = loadPlugins();
 const bs = browserSync.create();
 
-<% if (includeReact) { -%>
+<% if (includeAngular) { -%>
 gulp.task('html', ['scripts', 'styles'], () => {
   gulp.src('app/index.html')
     .pipe(gulp.dest('dist'));
@@ -39,7 +39,7 @@ gulp.task('images', () => {
 
 gulp.task('extras', () => {
   return gulp.src([
-    'app/*.*'<% if (includeReact) { %>,
+    'app/*.*'<% if (includeAngular) { %>,
     '!app/index.html'<% } %>
   ], {dot: true})
     .pipe(gulp.dest('dist'));

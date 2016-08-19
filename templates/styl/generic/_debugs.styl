@@ -1,0 +1,44 @@
+$debug-enable = true
+
+$debug-break-point
+    &:before
+        position fixed
+        bottom 0
+        right 0
+        font-size 2rem
+        color #FFF
+        background-color rgba(0,0,0,0.8)
+        padding 0 35px
+        z-index 500
+
+        +at(1)
+            content 'xs'
+        +at(2)
+            content 's'
+        +at(3)
+            content 'm'
+        +at(4)
+            content 'l'
+        +at(5)
+            content 'xl'
+        +at(6)
+            content 'hd'
+
+
+
+$debug-grid = false
+    $debug-grid
+        &:after
+            position fixed
+            top 0
+            left 0
+            content ' '
+            width 100%
+            height 100%
+
+            +at(1)
+                background url('../img/grid/mobile.png') top center repeat-y
+            +between(2,3)
+                background url('../img/grid/tablet.png') top center repeat-y
+            +above(4)
+                background url('../img/grid/desktop.png') top center repeat-y

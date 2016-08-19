@@ -13,13 +13,13 @@ module.exports = generators.Base.extend({
 
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the ' + chalk.red('atomic-design') + ' generator!'
+      'Welcome to the ' + chalk.red('capybara') + ' generator!'
     ));
 
     var prompts = [{
       type: 'confirm',
-      name: 'includeReact',
-      message: 'Would you like to include React?',
+      name: 'includeAngular',
+      message: 'Would you like to include Angular?',
       default: true
     }];
 
@@ -41,7 +41,7 @@ module.exports = generators.Base.extend({
         this.templatePath(templateURL+'_package.json'),
         this.destinationPath('package.json'),
         {
-          includeReact: this.props.includeReact
+          includeAngular: this.props.includeAngular
         }
       );
     },
@@ -55,12 +55,12 @@ module.exports = generators.Base.extend({
           this.templatePath(templateURL+'task/' + filePath),
           this.destinationPath('task/' + filePath),
           {
-            includeReact: this.props.includeReact
+            includeAngular: this.props.includeAngular
           }
         );
       }.bind(this));
 
-      if (!this.props.includeReact) {
+      if (!this.props.includeAngular) {
         this.fs.copy(
           this.templatePath(templateURL+'task/test.js'),
           this.destinationPath('task/test.js')
@@ -73,14 +73,14 @@ module.exports = generators.Base.extend({
         {
           name: this.pkg.name,
           version: this.pkg.version,
-          includeReact: this.props.includeReact
+          includeAngular: this.props.includeAngular
         }
       );
     },
     markup: function () {
       var layoutPath;
 
-      if (this.props.includeReact) {
+      if (this.props.includeAngular) {
         layoutPath = 'app/index.html';
       } else {
         layoutPath = 'app/layouts/default.html';
@@ -95,7 +95,7 @@ module.exports = generators.Base.extend({
         this.templatePath(templateURL+'index.html'),
         this.destinationPath(layoutPath),
         {
-          includeReact: this.props.includeReact
+          includeAngular: this.props.includeAngular
         }
       );
     },
@@ -111,7 +111,7 @@ module.exports = generators.Base.extend({
         );
       }.bind(this));
 
-      if (this.props.includeReact) {
+      if (this.props.includeAngular) {
         [
           'components/icon.jsx',
           'app.jsx'
@@ -173,7 +173,7 @@ module.exports = generators.Base.extend({
         this.templatePath(templateURL+'styl/app.styl'),
         this.destinationPath('app/styl/app.styl'),
         {
-          includeReact: this.props.includeReact
+          includeAngular: this.props.includeAngular
         }
       );
     },
@@ -188,7 +188,7 @@ module.exports = generators.Base.extend({
     test: function () {
       var files;
 
-      if (this.props.includeReact) {
+      if (this.props.includeAngular) {
         files = [
           'test/mocha.opts',
           'test/helpers/common.js',
@@ -211,7 +211,7 @@ module.exports = generators.Base.extend({
     },
 
     loaders: function () {
-       if (this.props.includeReact) {
+       if (this.props.includeAngular) {
         this.fs.copy(
           this.templatePath(templateURL+'scripts/components/loader.jsx'),
           this.destinationPath('app/scripts/components/loader.jsx')
@@ -232,7 +232,7 @@ module.exports = generators.Base.extend({
           this.templatePath(templateURL+''+file),
           this.destinationPath('.' + file),
           {
-            includeReact: this.props.includeReact
+            includeAngular: this.props.includeAngular
           }
         );
       }.bind(this));

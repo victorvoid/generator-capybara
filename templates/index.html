@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-<% if (includeReact) { -%>
+<% if (includeAngular) { -%>
     <title>Atomic Design</title>
 <% } else { -%>
     <title><%% if (page.title) { %><%%= page.title %> | <%% } %>Atomic Design</title>
@@ -31,7 +31,7 @@
     </script>
   </head>
   <body>
-<% if (includeReact) { -%>
+<% if (includeAngular) { -%>
     <div id="content"></div>
 <% } else { -%>
     <%%= contents %>
