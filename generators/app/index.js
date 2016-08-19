@@ -4,7 +4,7 @@ var yosay = require('yosay');
 var templateURL = '../../../templates/';
 
 module.exports = generators.Base.extend({
-  initializing: function () {
+   initializing: function () {
     this.pkg = require('../../package.json');
   },
 
@@ -17,10 +17,17 @@ module.exports = generators.Base.extend({
     ));
 
     var prompts = [{
-      type: 'confirm',
-      name: 'includeAngular',
-      message: 'Would you like to include Angular?',
-      default: true
+      type: 'list',
+      name: 'framework',
+      message: 'Which JavaScript framework do you want?',
+      choices: [
+          {name: 'Angular 1', value: 'angular1'},
+          {name: chalk.gray('Angular 2'), value: 'angular2', disabled: chalk.gray('Wished. Contributors welcome. =)')},
+          {name: chalk.gray('React'), value: 'react', disabled: chalk.gray('Wished. Contributors welcome. =)')},
+          {name: chalk.gray('Vue 2'), value: 'vue', disabled: chalk.gray('Wished. Contributors welcome.')},
+          {name: chalk.gray('Ember 2'), value: 'ember', disabled: chalk.gray('Wished. Contributors welcome.')},
+          {name: chalk.gray('Backbone'), value: 'backbone', disabled: chalk.gray('Wished. Contributors welcome.')}
+        ]
     }];
 
     this.prompt(prompts, function (props) {
@@ -38,95 +45,12 @@ module.exports = generators.Base.extend({
   writing: {
     npm: function () {
       this.fs.copyTpl(
-        this.templatePath(templateURL+'_package.json'),
+        this.templatePath(templateURL+'package.json'),
         this.destinationPath('package.json'),
         {
-          includeAngular: this.props.includeAngular
+          framework: this.props.framework
         }
       );
-    },
-
-    tasks: function () {
-      [
-        'dev.js',
-        'prod.js'
-      ].forEach(function (filePath) {
-        this.fs.copyTpl(
-          this.templatePath(templateURL+'task/' + filePath),
-          this.destinationPath('task/' + filePath),
-          {
-            includeAngular: this.props.includeAngular
-          }
-        );
-      }.bind(this));
-
-      if (!this.props.includeAngular) {
-        this.fs.copy(
-          this.templatePath(templateURL+'task/test.js'),
-          this.destinationPath('task/test.js')
-        );
-      }
-
-      this.fs.copyTpl(
-        this.templatePath(templateURL+'gulpfile.babel.js'),
-        this.destinationPath('gulpfile.babel.js'),
-        {
-          name: this.pkg.name,
-          version: this.pkg.version,
-          includeAngular: this.props.includeAngular
-        }
-      );
-    },
-    markup: function () {
-      var layoutPath;
-
-      if (this.props.includeAngular) {
-        layoutPath = 'app/index.html';
-      } else {
-        layoutPath = 'app/layouts/default.html';
-
-        this.fs.copy(
-          this.templatePath(templateURL+'views/index.html'),
-          this.destinationPath('app/views/index.html')
-        );
-      }
-
-      this.fs.copyTpl(
-        this.templatePath(templateURL+'index.html'),
-        this.destinationPath(layoutPath),
-        {
-          includeAngular: this.props.includeAngular
-        }
-      );
-    },
-
-    scripts: function () {
-      [
-        'helpers/fetch.js',
-        'fonts.js'
-      ].forEach(function (file) {
-        this.fs.copy(
-          this.templatePath(templateURL+'scripts/' + file),
-          this.destinationPath('app/scripts/' + file)
-        );
-      }.bind(this));
-
-      if (this.props.includeAngular) {
-        [
-          'components/icon.jsx',
-          'app.jsx'
-        ].forEach(function (file) {
-          this.fs.copy(
-            this.templatePath(templateURL+'scripts/' + file),
-            this.destinationPath('app/scripts/' + file)
-          );
-        }.bind(this));
-      } else {
-        this.fs.copy(
-          this.templatePath(templateURL+'scripts/app.js'),
-          this.destinationPath('app/scripts/app.js')
-        );
-      }
     },
 
     styles: function () {
@@ -134,9 +58,9 @@ module.exports = generators.Base.extend({
        'base/_forms.styl',
        'base/_global-classes.styl',
        'base/_headings.styl',
-       'base/_media.styl',
        'generic/_reset.styl',
        'generic/_mixins.styl',
+       'generic/_debugs.styl',
        'patterns/00-bosons/_boson-button.styl',
        'patterns/00-bosons/_boson-colors.styl',
        'patterns/00-bosons/_boson-responsive.styl',
@@ -173,73 +97,69 @@ module.exports = generators.Base.extend({
         this.templatePath(templateURL+'styl/app.styl'),
         this.destinationPath('app/styl/app.styl'),
         {
-          includeAngular: this.props.includeAngular
+          framework: this.props.framework
         }
       );
     },
-
+    tasks: function(){
+      [
+        'gulp_tasks/browsersync.js',
+        'gulp_tasks/karma.js',
+        'gulp_tasks/misc.js',
+        'gulp_tasks/partials.js',
+        'gulp_tasks/webpack.js',
+        'conf/browsersync-dist.conf.js',
+        'conf/browsersync.conf.js',
+        'conf/gulp.conf.js',
+        'conf/karma-auto.conf.js',
+        'conf/karma.conf.js',
+        'conf/webpack-dist.conf.js',
+        'conf/webpack-test.conf.js',
+        'conf/webpack.conf.js'
+      ].forEach(function (file) {
+        this.fs.copy(
+          this.templatePath(templateURL + '' + file),
+          this.destinationPath(file)
+        );
+      }.bind(this));  
+    },
     svg: function () {
       this.fs.copy(
         this.templatePath(templateURL+'images/icons.svg'),
         this.destinationPath('app/images/icons.svg')
       );
     },
-
-    test: function () {
-      var files;
-
-      if (this.props.includeAngular) {
-        files = [
-          'test/mocha.opts',
-          'test/helpers/common.js',
-          'test/spec/document.js',
-          'test/spec/test.jsx'
-        ];
-      } else {
-        files = [
-          'test/fixtures/index.html',
-          'test/spec/test.js'
-        ];
-      }
-
-      files.forEach(function (file) {
+    images: function () {
+      [
+        'desktop.png',
+        'mobile.png',
+        'tablet.png'
+      ].forEach(function (file) {
         this.fs.copy(
-          this.templatePath(templateURL+''+file),
+          this.templatePath(templateURL + 'images/grid/' + file),
+          this.destinationPath('app/images/grid/' + file)
+        );
+      }.bind(this));  
+    },
+    files: function(){
+      this.fs.copy(
+        this.templatePath(templateURL+'gulpfile.js'),
+        this.destinationPath('gulpfile.js')
+      );
+    },
+    dotfiles: function(){
+      [
+        '.gitignore',
+        '.babelrc'
+      ].forEach(function(file){
+        this.fs.copy(
+          this.templatePath(templateURL + 'dotfiles/' + file),
           this.destinationPath(file)
         );
       }.bind(this));
     },
-
-    loaders: function () {
-       if (this.props.includeAngular) {
-        this.fs.copy(
-          this.templatePath(templateURL+'scripts/components/loader.jsx'),
-          this.destinationPath('app/scripts/components/loader.jsx')
-        );
-      }
-    },
-
-    dotfiles: function () {
-      [
-        'travis.yml',
-        'babelrc',
-        'eslintrc',
-        'eslintignore',
-        'editorconfig',
-        'gitignore'
-      ].forEach(function (file) {
-        this.fs.copyTpl(
-          this.templatePath(templateURL+''+file),
-          this.destinationPath('.' + file),
-          {
-            includeAngular: this.props.includeAngular
-          }
-        );
-      }.bind(this));
+    install: function () {
+      this.npmInstall();
     }
-  },
-
-  install: function () {
-    this.npmInstall();
   }
-});
+})

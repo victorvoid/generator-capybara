@@ -1,6 +1,6 @@
 {
   "name": "generator-capybara",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "Yeoman generator for front-end with Atomic Design + Stylus +  Webpack + Rupture + Kouto-Swiss + Jeet + ES6 + BrowserSync.",
   "homepage": "https://github.com/VictorVoid/generator-capybara",
   "author": {
@@ -12,41 +12,32 @@
     "generators"
   ],
   "main": "generators/app/index.js",
+
   "keywords": [
-    "capybara-generator",
-    "yeoman-generator",
-    "capybara-generator",
     "yeoman-generator",
     "atomic-design",
-    "modern",
-    "capybara",
-    "generator capybara",
-    "capybara workflow",
+    "modern workflow",
     "frontend",
     "gulp",
     "postcss",
-    "browserify",
-    "css-atomic"
+    "css-atomic",
+    "capybara generator",
+    "capybara",
+    "generator capybara",
+    "webpack capybara"
   ],
   "dependencies": {
-    "yeoman-generator": "^0.23.0",
     "chalk": "^1.0.0",
-    "yosay": "^1.0.0"
+    "yeoman-generator": "^0.20.1",
+    "yosay": "^1.0.4"
   },
   "devDependencies": {
-    "yeoman-test": "^1.0.0",
-    "yeoman-assert": "^2.0.0",
-    "eslint": "^2.1.0",
-    "eslint-config-xo-space": "^0.13.0",
-    "gulp": "^3.9.0",
-    "gulp-eslint": "^2.0.0",
-    "gulp-exclude-gitignore": "^1.0.0",
-    "gulp-line-ending-corrector": "^1.0.1",
-    "gulp-istanbul": "^0.10.3",
-    "gulp-mocha": "^2.0.0",
-    "gulp-plumber": "^1.0.0",
-    "gulp-nsp": "^2.1.0",
-    "gulp-coveralls": "^0.1.0"
+    "babel": "^5.8.23",
+    "eslint": "^1.7.2",
+    "jsonlint": "^1.6.2",
+    "mocha": "*",
+    "shelljs": "^0.5.1",
+    "yeoman-assert": "^2.0.0"
   },
   "eslintConfig": {
     "extends": "xo-space",
@@ -54,7 +45,7 @@
       "mocha": true
     }
   },
-  "repository": "VictorVoid/generator-capybara",
+  "repository": "VictorVoid/generator-atomic-design",
   "scripts": {
     "prepublish": "gulp prepublish",
     "test": "gulp"
