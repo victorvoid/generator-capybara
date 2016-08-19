@@ -22,11 +22,11 @@ module.exports = generators.Base.extend({
       message: 'Which JavaScript framework do you want?',
       choices: [
           {name: 'Angular 1', value: 'angular1'},
-          {name: chalk.gray('Angular 2'), value: 'angular2', disabled: chalk.gray('Wished. Contributors welcome. =)')},
-          {name: chalk.gray('React'), value: 'react', disabled: chalk.gray('Wished. Contributors welcome. =)')},
-          {name: chalk.gray('Vue 2'), value: 'vue', disabled: chalk.gray('Wished. Contributors welcome.')},
-          {name: chalk.gray('Ember 2'), value: 'ember', disabled: chalk.gray('Wished. Contributors welcome.')},
-          {name: chalk.gray('Backbone'), value: 'backbone', disabled: chalk.gray('Wished. Contributors welcome.')}
+          {name: chalk.gray('React'), value: 'react', disabled: chalk.gray('Wished. Contributors welcome. *-*')},
+          {name: chalk.gray('Angular 2'), value: 'angular2', disabled: chalk.gray('Wished. Contributors welcome. *-*')},
+          {name: chalk.gray('Vue 2'), value: 'vue', disabled: chalk.gray('Wished. Contributors welcome. *-*')},
+          {name: chalk.gray('Ember 2'), value: 'ember', disabled: chalk.gray('Wished. Contributors welcome. *-*')},
+          {name: chalk.gray('Backbone'), value: 'backbone', disabled: chalk.gray('Wished. Contributors welcome. *-*')}
         ]
     }];
 
@@ -149,7 +149,6 @@ module.exports = generators.Base.extend({
     },
     dotfiles: function(){
       [
-        '.gitignore',
         '.babelrc'
       ].forEach(function(file){
         this.fs.copy(
