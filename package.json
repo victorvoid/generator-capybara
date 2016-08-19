@@ -9,7 +9,8 @@
     "url": "https://github.com/VictorVoid/"
   },
   "files": [
-    "generators"
+    "generators",
+    "templates"
   ],
   "main": "generators/app/index.js",
 
@@ -47,7 +48,6 @@
   },
   "repository": "VictorVoid/generator-atomic-design",
   "scripts": {
-    "prepublish": "gulp prepublish",
     "test": "gulp"
   },
   "license": "MIT"
