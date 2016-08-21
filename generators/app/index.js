@@ -69,13 +69,12 @@ module.exports = generators.Base.extend({
 
   writing: {
     npm: function () {
-      console.log('--> ', this.props);
       if(this.props.fullapp != 'stylfolder'){
         this.fs.copyTpl(
           this.templatePath(templateURL+'package.json'),
           this.destinationPath('package.json'),
           {
-            framework: this.props.fullapp
+            framework: this.props.framework
           }
         );
       }
@@ -160,8 +159,6 @@ module.exports = generators.Base.extend({
     src: function(){
       if(this.props.framework === 'angular1'){
         [
-        'index.html',
-        'index.js',
         'index.spec.js',
         'app/header.html',
         'app/header.js',
@@ -178,6 +175,24 @@ module.exports = generators.Base.extend({
               this.destinationPath('src/'+file)
             );
         }.bind(this));
+      }
+      //global
+      if(this.props.fullapp != 'stylfolder'){
+        this.fs.copyTpl(
+              this.templatePath(templateURL + 'index.html'),
+              this.destinationPath('src/index.html'),
+              {
+                framework: this.props.framework,
+                title: this.props.projectname
+              }
+        );
+        this.fs.copyTpl(
+            this.templatePath(templateURL + 'index.js'),
+            this.destinationPath('src/index.js'),
+            {
+              framework: this.props.framework
+            }
+        );
       }
     },
     gridimages: function () {
