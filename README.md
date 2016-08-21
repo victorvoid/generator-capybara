@@ -148,11 +148,51 @@ Dev Technologies
 
 * [Babel](https://babeljs.io/): A es6/es7 compiler.
 * [Karma](https://karma-runner.github.io): A productive testing environment to developers
-* [Eslint](http://eslint.org/): The pluggable linting utility for JavaScript and JSX.
+* [Eslint](http://eslinbat.org/): The pluggable linting utility for JavaScript and JSX.
 * [BrowserSync](https://www.browsersync.io/): Time-saving synchronised browser testing.
 * [Rupture](https://github.com/jescalan/rupture): Simple media queries for stylus.
 * [Kouto-Swiss](http://kouto-swiss.io/): A complete CSS framework for Stylus.
 * [Jeet](http://jeet.gs/): A grid system for human.
+
+Features
+--------
+
+```
+├── □ styl
+|   |     
+|   ├── □ generic
+|   |   |   └── _debugs.styl
+```
+
+Variables for responsive breakpoint and grid
+
+```styl
+//default:
+$debug-enable = true
+$debug-grid = false
+```
+
+```css
+
+/*
+    Media Queries
+*/
+
+// scale                  0     400px   600px   800px   1050px  1800px
+
+//                        └──┬──┘ └──┬──┘ └──┬──┘ └──┬──┘ └──┬──┘ └──┬──
+// Slice numbers:             1      2        3       4       5       6
+// scale-names              'xs'    's'      'm'     'l'     'xl'    'hd'
+
+
+// scale                  0     400px  600px   800px   1050px  1800px
+
+//                        └──┬──┘ └──────────┬─────────┘ └──┬──┘ └──┬──
+// scale-devices             'mobile'     'tablet'        'desktop' 'hd'
+```
+
+![](https://github.com/victorvoid/generator-capybara/blob/master/image-demo/mobile.png?raw=true)
+![](https://github.com/victorvoid/generator-capybara/blob/master/image-demo/desktop.png?raw=true")
 
 ## License
 
