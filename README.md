@@ -19,7 +19,14 @@ Generators
 
 Available generators:
 
-- [capybara](#capybara-app)
+    capybara
+    capybara:boson
+    capybara:quark
+    capybara:atom
+    capybara:molecule
+    capybara:organism
+    capybara:page
+    capybara:template
 
 ### Capybara App
  
