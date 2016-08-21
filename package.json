@@ -13,7 +13,6 @@
     "templates"
   ],
   "main": "generators/app/index.js",
-
   "keywords": [
     "yeoman-generator",
     "atomic-design",

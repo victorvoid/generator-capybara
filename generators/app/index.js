@@ -1,8 +1,8 @@
 var generators = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
-var templateURL = '../../../templates/';
 
+var templateURL = '../../../templates/';
 module.exports = generators.Base.extend({
    initializing: function () {
     this.pkg = require('../../package.json');
@@ -16,19 +16,43 @@ module.exports = generators.Base.extend({
       'Welcome to the ' + chalk.red('capybara') + ' generator!'
     ));
 
-    var prompts = [{
+    var prompts = [
+    {
+      type: 'list',
+      name: 'fullapp',
+      message: "Hello, What do you want ?",
+      choices: [
+          {name: 'Full App Atomic Design', value: 'fullapp'},
+          {name: 'Folder Atomic Stylus ', value: 'stylfolder'}
+        ]
+    },
+    {
+      type: 'input',
+      name: 'projectname',
+      message: 'What would you like to' + chalk.red(' name your project') + '?',
+      default: function () {
+        return 'Sample';
+      },
+      when: function(answers){ 
+        return answers.fullapp === 'fullapp'
+      }
+    },
+    {
       type: 'list',
       name: 'framework',
       message: 'Which JavaScript framework do you want?',
       choices: [
           {name: 'Angular 1', value: 'angular1'},
-          {name: 'Blank', value: 'blank'},
+          {name: 'No framework', value: 'blank'},
           {name: chalk.gray('React'), value: 'react', disabled: chalk.gray('Wished. Contributors welcome. *-*')},
           {name: chalk.gray('Angular 2'), value: 'angular2', disabled: chalk.gray('Wished. Contributors welcome. *-*')},
           {name: chalk.gray('Vue 2'), value: 'vue', disabled: chalk.gray('Wished. Contributors welcome. *-*')},
           {name: chalk.gray('Ember 2'), value: 'ember', disabled: chalk.gray('Wished. Contributors welcome. *-*')},
           {name: chalk.gray('Backbone'), value: 'backbone', disabled: chalk.gray('Wished. Contributors welcome. *-*')}
-        ]
+        ],
+      when: function(answers){ 
+        return answers.fullapp === 'fullapp'
+      }
     }];
 
     this.prompt(prompts, function (props) {
@@ -45,16 +69,22 @@ module.exports = generators.Base.extend({
 
   writing: {
     npm: function () {
-      this.fs.copyTpl(
-        this.templatePath(templateURL+'package.json'),
-        this.destinationPath('package.json'),
-        {
-          framework: this.props.framework
-        }
-      );
+      console.log('--> ', this.props);
+      if(this.props.fullapp != 'stylfolder'){
+        this.fs.copyTpl(
+          this.templatePath(templateURL+'package.json'),
+          this.destinationPath('package.json'),
+          {
+            framework: this.props.fullapp
+          }
+        );
+      }
     },
 
     styles: function () {
+      
+      var folderstyl = this.props.fullapp === 'stylfolder' ? '': 'src/';
+
       [
        'base/_forms.styl',
        'base/_global-classes.styl',
@@ -90,93 +120,103 @@ module.exports = generators.Base.extend({
       ].forEach(function (file) {
         this.fs.copy(
           this.templatePath(templateURL+'styl/' + file),
-          this.destinationPath('src/styl/' + file)
+          this.destinationPath(folderstyl+'styl/' + file)
         );
       }.bind(this));
 
       this.fs.copyTpl(
         this.templatePath(templateURL+'styl/app.styl'),
-        this.destinationPath('src/styl/app.styl'),
+        this.destinationPath(folderstyl+'styl/app.styl'),
         {
-          framework: this.props.framework
+          framework: this.props.fullapp
         }
       );
     },
     tasks: function(){
-      [
-        'gulp_tasks/browsersync.js',
-        'gulp_tasks/karma.js',
-        'gulp_tasks/misc.js',
-        'gulp_tasks/partials.js',
-        'gulp_tasks/webpack.js',
-        'conf/browsersync-dist.conf.js',
-        'conf/browsersync.conf.js',
-        'conf/gulp.conf.js',
-        'conf/karma-auto.conf.js',
-        'conf/karma.conf.js',
-        'conf/webpack-dist.conf.js',
-        'conf/webpack-test.conf.js',
-        'conf/webpack.conf.js'
-      ].forEach(function (file) {
-        this.fs.copy(
-          this.templatePath(templateURL + '' + file),
-          this.destinationPath(file)
-        );
-      }.bind(this));  
+      if(this.props.fullapp != 'stylfolder'){
+        [
+          'gulp_tasks/browsersync.js',
+          'gulp_tasks/karma.js',
+          'gulp_tasks/misc.js',
+          'gulp_tasks/partials.js',
+          'gulp_tasks/webpack.js',
+          'conf/browsersync-dist.conf.js',
+          'conf/browsersync.conf.js',
+          'conf/gulp.conf.js',
+          'conf/karma-auto.conf.js',
+          'conf/karma.conf.js',
+          'conf/webpack-dist.conf.js',
+          'conf/webpack-test.conf.js',
+          'conf/webpack.conf.js'
+        ].forEach(function (file) {
+          this.fs.copy(
+            this.templatePath(templateURL + '' + file),
+            this.destinationPath(file)
+          );
+        }.bind(this));
+      }
     },
 
-    scripts: function(){
-      [
-      'index.js',
-      'index.spec.js',
-      'components/app/hello-world.html',
-      'components/app/hello-world.js',
-      'components/app/hello-world.spec.js'
-      ].forEach(function (file) {
-        this.fs.copy(
-          this.templatePath(templateURL + '' + file),
-          this.destinationPath('src/'+file)
-        );
-      }.bind(this));  
+    src: function(){
+      if(this.props.framework === 'angular1'){
+        [
+        'index.html',
+        'index.js',
+        'index.spec.js',
+        'app/header.html',
+        'app/header.js',
+        'app/header.spec.js',
+        'app/footer.html',
+        'app/footer.js',
+        'app/footer.spec.js',
+        'app/main.html',
+        'app/main.js',
+        'app/main.spec.js',
+        ].forEach(function (file) {
+            this.fs.copy(
+              this.templatePath(templateURL + '' + file),
+              this.destinationPath('src/'+file)
+            );
+        }.bind(this));
+      }
     },
-
-    svg: function () {
-      this.fs.copy(
-        this.templatePath(templateURL+'images/icons.svg'),
-        this.destinationPath('src/images/icons.svg')
-      );
-    },
-    images: function () {
+    gridimages: function () {
+      var folderstyl = this.props.fullapp === 'stylfolder' ? 'styl/': 'src/styl/';
       [
         'desktop.png',
         'mobile.png',
         'tablet.png'
       ].forEach(function (file) {
         this.fs.copy(
-          this.templatePath(templateURL + 'images/grid/' + file),
-          this.destinationPath('src/images/grid/' + file)
+          this.templatePath(templateURL + 'styl/images/grid/' + file),
+          this.destinationPath(folderstyl+'images/grid/' + file)
         );
       }.bind(this));  
     },
     files: function(){
-      this.fs.copy(
-        this.templatePath(templateURL+'gulpfile.js'),
-        this.destinationPath('gulpfile.js')
-      );
+      if(this.props.fullapp != 'stylfolder'){
+        this.fs.copy(
+          this.templatePath(templateURL+'gulpfile.js'),
+          this.destinationPath('gulpfile.js')
+        );
+      }
     },
     dotfiles: function(){
-      [
-        '.babelrc',
-        '.eslintrc.js'
-      ].forEach(function(file){
-        this.fs.copy(
-          this.templatePath(templateURL + 'dotfiles/.' + file),
-          this.destinationPath(file)
-        );
-      }.bind(this));
+      if(this.props.fullapp != 'stylfolder'){
+        [
+          '.babelrc'
+        ].forEach(function(file){
+          this.fs.copy(
+            this.templatePath(templateURL + 'dotfiles/' + file),
+            this.destinationPath(file)
+          );
+        }.bind(this));
+      }
     },
     install: function () {
-      this.npmInstall();
+      if(this.props.fullapp != 'stylfolder'){
+        this.npmInstall();
+      }
     }
   }
 })

@@ -1,11 +1,13 @@
 import angular from 'angular';
 
-import {hello} from './components/app/hello-world';
+import {main} from  './app/main';
+import {header} from './app/header';
+import {footer} from './app/footer';
 
-import './styl/app.styl';
-
-export const app = 'app';
+// import './styl/app.styl';
 
 angular
-  .module(app, [])
-  .component('app', hello);
+  .module('app', [])
+  .component('app', main)
+  .component('capyHeader', header)
+  .component('capyFooter', footer)
