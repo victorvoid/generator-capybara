@@ -2,6 +2,8 @@
 
 [![NPM version][npm-image]][npm-url]
 
+[![Npm Downloads](https://nodei.co/npm/generator-capybara.png?downloads=true&stars=true)](https://nodei.co/npm/generator-capybara.png?downloads=true&stars=true)
+
 > Capybara Generator follows the Atomic Design methodology and with a modern workflow (webpack, es6 and stylus).
 
 <img width="300"  src="https://media.giphy.com/media/pTX0wj6rPl7QA/giphy.gif"></img>
